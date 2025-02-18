@@ -23,8 +23,8 @@ jobs:
       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
       
     - name: Build the Docker image
-      run: docker build -t amitslab/cicd-pipeline:${{ github.sha }} -t amitslab/cicd-pipeline:latest .
+      run: docker build -t ibrar2021/cicd-pipline:${{ github.sha }} -t ibrar2021/cicd-pipline:latest .
     - name: Push to Dockerhub
       run: |
-        docker push amitslab/cicd-pipeline:${{ github.sha }}
-        docker push amitslab/cicd-pipeline:latest
+        docker push ibrar2021/cicd-pipline:${{ github.sha }}
+        docker push ibrar2021/cicd-pipline:latest
