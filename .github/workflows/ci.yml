@@ -4,27 +4,27 @@ on:
   push:
     branches: 
       - "master"
-      # This will make it run on all branches
   pull_request:
     branches: [ "master" ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
-    - name: Login Dockerhub
+
+    - name: Login DockerHub
       env:
-        DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
-        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-      run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-      
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
     - name: Build the Docker image
-      run: docker build -t Ibrar2021/cicd-pipline:${{ github.sha }} -t ibrar2021/cicd-pipline:latest .
-    - name: Push to Dockerhub
       run: |
-        docker push ibrar2021/cicd-pipline:${{ github.sha }}
-        docker push ibrar2021/cicd-pipline:latest
+        docker build -t ibrar2021/cicd-pipeline:${{ github.sha }} -t ibrar2021/cicd-pipeline:latest .
+
+    - name: Push to DockerHub
+      run: |
+        docker push ibrar2021/cicd-pipeline:${{ github.sha }}
+        docker push ibrar2021/cicd-pipeline:latest
