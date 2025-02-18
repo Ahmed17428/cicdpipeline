@@ -4,7 +4,7 @@ on:
   push:
     branches: 
       - "master"
-      #  This will make it run on all branches
+      # This will make it run on all branches
   pull_request:
     branches: [ "master" ]
 
@@ -23,7 +23,7 @@ jobs:
       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
       
     - name: Build the Docker image
-      run: docker build -t ibrar2021/cicd-pipline:${{ github.sha }} -t ibrar2021/cicd-pipline:latest .
+      run: docker build -t Ibrar2021/cicd-pipline:${{ github.sha }} -t ibrar2021/cicd-pipline:latest .
     - name: Push to Dockerhub
       run: |
         docker push ibrar2021/cicd-pipline:${{ github.sha }}
