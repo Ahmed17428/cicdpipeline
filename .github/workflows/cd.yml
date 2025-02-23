@@ -2,7 +2,7 @@ name: Test Pipeline
 
 on:
   workflow_run:
-    workflows: ["Test Pipeline"]
+    workflows: ["CI Pipeline"]
     types:
       - completed
 
