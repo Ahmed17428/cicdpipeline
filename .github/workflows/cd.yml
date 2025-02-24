@@ -1,21 +1,21 @@
-name: Test Pipeline
-
+name: CD Pipeline
 on:
   workflow_run:
     workflows: ["CI Pipeline"]
     types:
       - completed
-
 jobs:
-
-  build:
-
-    runs-on: self-hosted
-
+  deploy:
+    runs-on: ubuntu-latest 
     steps:
-    - name: Pull Docker image
-      run: sudo docker pull ibrar2021/cicd-pipeline:latest
-    - name: Delete Old docker container
-      run: sudo docker rm -f cicd-pipeline-container || true
-    - name: Run Docker Container
-      run: sudo docker run -d -p 8080:8080 --name cicd-pipeline-container ibrar2021/cicd-pipeline
+    - name: Connect to EC2 and Deploy
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ec2-user
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script:
+          sudo docker pull ibrar2021/cicd-pipeline:latest
+          sudo docker stop cicd-pipeline-container || true
+          sudo docker rm -f cicd-pipeline-container || true
+          sudo docker run -d -p 8080:8080 --name cicd-pipeline-container ibrar2021/cicd-pipeline:latest
