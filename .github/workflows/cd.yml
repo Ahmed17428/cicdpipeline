@@ -1,16 +1,20 @@
 name: CD Pipeline
+
 on:
   workflow_run:
-    workflows: ["CI Pipeline"]
+    workflows: ["CI Pipeline"]  # Name of the workflow this should trigger on completion
     types:
-      - completed
+      - completed  # Trigger when the CI pipeline has completed
+
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: self-hosted  # Ensure that the runner has the self-hosted label
     steps:
-    - name: Pull Docker image
-      run: sudo docker pull ibrar2021/cicd-pipeline02:latest
-    - name: Delete Old docker container
-      run: sudo docker rm -f cicd-pipeline02-container || true
-    - name: Run Docker Container
-      run: sudo docker run -d -p 8080:8080 --name cicd-pipeline02-container ibrar2021/cicd-pipeline
+      - name: Pull Docker image
+        run: sudo docker pull ibrar2021/cicd-pipeline02:latest
+
+      - name: Delete Old Docker container
+        run: sudo docker rm -f cicd-pipeline02-container || true
+
+      - name: Run Docker Container
+        run: sudo docker run -d -p 8080:8080 --name cicd-pipeline02-container ibrar2021/cicd-pipeline02:latest
